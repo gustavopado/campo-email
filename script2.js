@@ -1,31 +1,29 @@
 const form = document.getElementById('form-email');
-const emailInput = document.getElementById('email');
-const erroEmail = document.getElementById('erro-email');
+const email = document.getElementById('email');
+const erro = document.getElementById('erro-email');
 
-// Regex simples para reforçar validação além do HTML5
-function emailValido(email) {
-  const padrao = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return padrao.test(email);
+function validarEmail(valor) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(valor);
 }
 
 form.addEventListener('submit', e => {
-  e.preventDefault(); // previne envio automático
+  erro.textContent = '';
+  email.classList.remove('invalido');
 
-  const valor = emailInput.value.trim();
-
-  if (!valor) {
-    erroEmail.textContent = 'O campo é obrigatório.';
-    emailInput.classList.add('invalido');
+  if (!email.value) {
+    erro.textContent = 'O campo é obrigatório.';
+    email.classList.add('invalido');
+    e.preventDefault();
     return;
   }
-  if (!emailValido(valor)) {
-    erroEmail.textContent = 'Digite um e‑mail válido.';
-    emailInput.classList.add('invalido');
+  if (!validarEmail(email.value.trim())) {
+    erro.textContent = 'Digite um e‑mail válido.';
+    email.classList.add('invalido');
+    e.preventDefault();
     return;
   }
 
-  erroEmail.textContent = '';
-  emailInput.classList.remove('invalido');
   alert('E‑mail enviado com sucesso!');
   form.reset();
 });
